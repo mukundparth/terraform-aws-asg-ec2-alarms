@@ -44,14 +44,14 @@ resource "aws_cloudwatch_event_target" "schedule" {
   count     = var.schedule == "" ? 0 : 1
   target_id = "${var.name}-schedule"
   rule      = aws_cloudwatch_event_rule.schedule[0].name
-  arn       = lambda.function_arn
+  arn       = aws_lambda_function.lambda.function_arn
 }
 
 resource "aws_lambda_permission" "schedule" {
   count         = var.schedule == "" ? 0 : 1
   statement_id  = "${var.name}-schedule"
   action        = "lambda:InvokeFunction"
-  function_name = lambda.function_name
+  function_name = aws_lambda_function.lambda.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.schedule[0].arn
 }
