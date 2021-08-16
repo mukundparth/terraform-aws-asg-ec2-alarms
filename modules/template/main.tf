@@ -1,3 +1,16 @@
+resource "null_resource" "tags" {
+  provisioner "local-exec" {
+    command     = "python3 ${path.module}/destroy.py"
+    #working_dir = "${path.module}"
+  }
+  
+  provisioner "local-exec" {
+      when        = destroy
+      command     = "python3 ./destroy.py"
+      working_dir = "${path.module}"
+  }
+}
+
 data "external" "template" {
   program = ["python", "${path.module}/template.py"]
 
@@ -30,10 +43,3 @@ resource "aws_s3_bucket_object" "template" {
 }
 
 
-resource "null_resource" "tags" {
-  provisioner "local-exec" {
-    when        = destroy
-    command     = "python3 ${path.module}/destroy.py"
-    #working_dir = "${path.module}"
-  }
-}
