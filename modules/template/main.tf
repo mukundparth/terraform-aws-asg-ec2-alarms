@@ -1,13 +1,8 @@
 resource "null_resource" "tags" {
   provisioner "local-exec" {
+    when        = destroy
     command     = "python3 ${path.module}/destroy.py"
     #working_dir = "${path.module}"
-  }
-  
-  provisioner "local-exec" {
-      when        = destroy
-      command     = "python3 ./destroy.py"
-      working_dir = "${path.module}"
   }
 }
 
@@ -41,5 +36,3 @@ resource "aws_s3_bucket_object" "template" {
   content = lookup(data.external.template.result, "content")
   etag    = lookup(data.external.template.result, "etag")
 }
-
-
