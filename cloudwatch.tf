@@ -44,7 +44,7 @@ resource "aws_cloudwatch_event_target" "schedule" {
   count     = var.schedule == "" ? 0 : 1
   target_id = "${var.name}-schedule"
   rule      = aws_cloudwatch_event_rule.schedule[0].name
-  arn       = aws_lambda_function.lambda.function_arn
+  arn       = aws_lambda_function.lambda.arn
 }
 
 resource "aws_lambda_permission" "schedule" {
